@@ -119,6 +119,7 @@
             <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#player" data-target="player">Player Portal</a>
             <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#public" data-target="public">Live Scoreboard</a>
             <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#host" data-target="host">Host Panel</a>
+            <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link flex items-center gap-1.5" href="#scoring" data-target="scoring"><span class="material-symbols-outlined text-sm">scoreboard</span> Live Scoring</a>
         </nav>
         <div class="flex items-center gap-4">
             <div id="header-user-badge" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs">
@@ -167,6 +168,11 @@
                             <span class="material-symbols-outlined text-4xl text-secondary">trophy</span>
                             <span class="font-bold text-sm">Host Dashboard</span>
                             <span class="text-xs text-on-surface-variant">Organize leagues</span>
+                        </button>
+                        <button class="nav-link p-6 glass-card rounded-2xl flex flex-col items-center gap-2 hover:border-secondary transition-all col-span-2 md:col-span-1" data-target="scoring">
+                            <span class="material-symbols-outlined text-4xl text-secondary">scoreboard</span>
+                            <span class="font-bold text-sm">Live Scoring</span>
+                            <span class="text-xs text-on-surface-variant">Score ball by ball</span>
                         </button>
                     </div>
                 </div>
@@ -1158,6 +1164,21 @@
                     </div>
                 </div>
 
+                <!-- Assign Scorers Card -->
+                <div class="glass-card p-6 rounded-3xl">
+                    <h3 class="font-headline-md text-lg mb-1 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">manage_accounts</span> Assign Scorers
+                    </h3>
+                    <p class="text-xs text-on-surface-variant mb-4">Grant specific registered players the ability to enter scores from the Live Scoring page.</p>
+                    <div class="flex gap-2 mb-4">
+                        <select id="host-assign-scorer-select" class="flex-1 bg-white/5 border border-white/10 rounded-xl p-2.5 text-sm text-white focus:border-secondary"></select>
+                        <button id="btn-host-add-scorer" class="px-4 py-2.5 bg-secondary text-on-secondary-fixed rounded-xl text-xs font-black hover:scale-[1.02] active:scale-95 transition-all">Add</button>
+                    </div>
+                    <div class="space-y-2" id="host-assigned-scorers-list">
+                        <div class="text-xs text-on-surface-variant italic">No scorers assigned yet. Anyone can view; only hosts score.</div>
+                    </div>
+                </div>
+
                 <!-- System Reset & Fresh Start -->
                 <div class="glass-card p-6 rounded-3xl border-red-500/20 bg-red-500/5 space-y-4">
                     <h3 class="font-headline-md text-lg flex items-center gap-2 text-red-400">
@@ -1176,6 +1197,404 @@
                     </h3>
                     <div class="space-y-4 max-h-[220px] overflow-y-auto pr-2 custom-scrollbar" id="host-tournaments-log">
                         <div class="text-xs text-on-surface-variant italic text-center py-8">No tournaments registered under your hosting name yet.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW: LIVE SCORING ==================== -->
+    <div id="view-scoring" class="view-container hidden p-4 lg:p-8 pb-24 lg:pb-8 content-padding-bottom">
+
+        <!-- No Match Banner -->
+        <div id="scoring-no-match-banner" class="glass-card p-8 rounded-3xl text-center max-w-lg mx-auto">
+            <span class="material-symbols-outlined text-5xl text-secondary mb-3 block">sports_cricket</span>
+            <h2 class="font-headline-md text-xl mb-2">No Active Match</h2>
+            <p class="text-sm text-on-surface-variant mb-6">Start a match from the Umpire Panel to enable live scoring controls here.</p>
+            <button class="nav-link px-6 py-3 bg-secondary text-on-secondary-fixed rounded-xl font-bold hover:scale-[1.02] transition-all" data-target="umpire">Go to Umpire Panel</button>
+        </div>
+
+        <!-- Main Scoring Interface (shown when match is LIVE) -->
+        <div id="scoring-main-interface" class="hidden">
+
+            <!-- Role Lock Banner (shown for read-only viewers) -->
+            <div id="scoring-lock-banner" class="scoring-lock-banner mb-4 hidden">
+                <span class="material-symbols-outlined text-lg">lock</span>
+                <div>
+                    <span class="font-black">View Only Mode</span>
+                    <span class="font-normal opacity-75 ml-1">— Scoring is controlled by the Tournament Host. You can see live stats but cannot make changes.</span>
+                </div>
+            </div>
+
+            <!-- Desktop 2-col | Mobile stacked -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4" id="scoring-layout-wrapper">
+
+                <!-- LEFT COLUMN: Stats + Controls -->
+                <div class="lg:col-span-8 flex flex-col gap-4">
+
+                    <!-- Scoreboard Header Card -->
+                    <div class="scoring-header-card">
+                        <!-- Team + Inning Label + CRR -->
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <div class="text-xs text-on-surface-variant uppercase tracking-wider" id="sc-team-inning-label">Team A, 1st Inning</div>
+                                <div class="text-[10px] text-yellow-400 font-bold mt-0.5" id="sc-toss-info"></div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">CRR</div>
+                                <div class="text-lg font-black text-secondary" id="sc-crr">0.00</div>
+                            </div>
+                        </div>
+
+                        <!-- Main Score Display -->
+                        <div class="flex items-baseline gap-3 mb-4">
+                            <span class="text-4xl font-black text-secondary" id="sc-runs">0</span>
+                            <span class="text-2xl font-bold text-on-surface-variant">-</span>
+                            <span class="text-4xl font-black text-secondary" id="sc-wickets">0</span>
+                            <span class="text-base font-normal text-on-surface-variant ml-1">(<span id="sc-overs">0.0</span>)</span>
+                        </div>
+
+                        <!-- Batsman Stats Table -->
+                        <table class="scoring-stat-table mb-3">
+                            <thead>
+                                <tr>
+                                    <th>Batsman</th>
+                                    <th>R</th>
+                                    <th>B</th>
+                                    <th>4s</th>
+                                    <th>6s</th>
+                                    <th>SR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span id="sc-striker-name">Batsman 1*</span></td>
+                                    <td id="sc-striker-runs">0</td>
+                                    <td id="sc-striker-balls">0</td>
+                                    <td id="sc-striker-fours">0</td>
+                                    <td id="sc-striker-sixes">0</td>
+                                    <td id="sc-striker-sr">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td><span id="sc-nonstriker-name">Batsman 2</span></td>
+                                    <td id="sc-nonstriker-runs">0</td>
+                                    <td id="sc-nonstriker-balls">0</td>
+                                    <td id="sc-nonstriker-fours">0</td>
+                                    <td id="sc-nonstriker-sixes">0</td>
+                                    <td id="sc-nonstriker-sr">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Bowler Stats Table -->
+                        <table class="scoring-stat-table">
+                            <thead>
+                                <tr>
+                                    <th>Bowler</th>
+                                    <th>O</th>
+                                    <th>M</th>
+                                    <th>R</th>
+                                    <th>W</th>
+                                    <th>ER</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span id="sc-bowler-name">Bowler 1</span></td>
+                                    <td id="sc-bowler-overs">0.0</td>
+                                    <td id="sc-bowler-maidens">0</td>
+                                    <td id="sc-bowler-runs">0</td>
+                                    <td id="sc-bowler-wickets">0</td>
+                                    <td id="sc-bowler-er">0.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- This Over Chips -->
+                        <div class="mt-3 pt-3 border-t border-white/5">
+                            <div class="text-xs text-on-surface-variant uppercase tracking-wider mb-2">This over:</div>
+                            <div class="flex gap-1.5 flex-wrap min-h-[36px]" id="sc-over-chips">
+                                <span class="text-xs text-on-surface-variant italic self-center">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls Section (disabled/hidden in read-only) -->
+                    <div id="scoring-controls-area">
+
+                        <!-- Extra Toggles + Action Buttons -->
+                        <div class="glass-card p-4 rounded-2xl">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <button class="extra-toggle-btn" id="sc-extra-wide" data-extra="wide">
+                                    <span class="toggle-box"></span> Wide
+                                </button>
+                                <button class="extra-toggle-btn" id="sc-extra-noball" data-extra="no-ball">
+                                    <span class="toggle-box"></span> No Ball
+                                </button>
+                                <button class="extra-toggle-btn" id="sc-extra-byes" data-extra="bye">
+                                    <span class="toggle-box"></span> Byes
+                                </button>
+                                <button class="extra-toggle-btn" id="sc-extra-legbye" data-extra="leg-bye">
+                                    <span class="toggle-box"></span> Leg Byes
+                                </button>
+                                <button class="extra-toggle-btn wicket-btn" id="sc-extra-wicket" data-extra="wicket">
+                                    <span class="toggle-box"></span> Wicket
+                                </button>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="scoring-action-btn retire-btn" id="sc-btn-retire">
+                                    <span class="flex items-center justify-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">logout</span> Retire
+                                    </span>
+                                </button>
+                                <button class="scoring-action-btn swap-btn" id="sc-btn-swap">
+                                    <span class="flex items-center justify-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">swap_horiz</span> Swap Batsman
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar + Numpad -->
+                        <div class="glass-card p-4 rounded-2xl mt-4">
+                            <div class="flex gap-4 items-start">
+                                <!-- Left Sidebar -->
+                                <div class="flex flex-col gap-2 w-[100px] flex-shrink-0">
+                                    <button class="scoring-sidebar-btn undo-btn" id="sc-btn-undo">
+                                        <span class="material-symbols-outlined text-base block mx-auto mb-0.5">undo</span>Undo
+                                    </button>
+                                    <button class="scoring-sidebar-btn view-only-allowed" id="sc-btn-partnerships">
+                                        <span class="material-symbols-outlined text-base block mx-auto mb-0.5">groups</span>Partners
+                                    </button>
+                                    <button class="scoring-sidebar-btn view-only-allowed" id="sc-btn-extras-panel">
+                                        <span class="material-symbols-outlined text-base block mx-auto mb-0.5">add_circle</span>Extras
+                                    </button>
+                                    <button class="scoring-sidebar-btn view-only-allowed" id="sc-btn-scorecard">
+                                        <span class="material-symbols-outlined text-base block mx-auto mb-0.5">list_alt</span>Scorecard
+                                    </button>
+                                </div>
+
+                                <!-- Circular Number Pad -->
+                                <div class="flex-1">
+                                    <div class="scoring-numpad-grid">
+                                        <button class="scoring-numpad-btn sc-run-btn" data-val="0">0</button>
+                                        <button class="scoring-numpad-btn sc-run-btn" data-val="1">1</button>
+                                        <button class="scoring-numpad-btn sc-run-btn" data-val="2">2</button>
+                                        <button class="scoring-numpad-btn sc-run-btn" data-val="3">3</button>
+                                        <button class="scoring-numpad-btn four-btn sc-run-btn" data-val="4">4</button>
+                                        <button class="scoring-numpad-btn sc-run-btn" data-val="5">5</button>
+                                        <button class="scoring-numpad-btn six-btn sc-run-btn" data-val="6">6</button>
+                                        <div class="relative flex items-center justify-center">
+                                            <button class="scoring-numpad-btn more-btn" id="sc-btn-more">···</button>
+                                            <div id="sc-more-popup" class="more-runs-popup hidden">
+                                                <button class="more-run-option sc-run-btn" data-val="7">+7</button>
+                                                <button class="more-run-option sc-run-btn" data-val="5" data-overthrow="1">OT5</button>
+                                                <button class="more-run-option sc-run-btn" data-val="4" data-overthrow="1">OT4</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-panels: Partnerships + Extras (always accessible) -->
+                    <div id="sc-partnerships-panel" class="partnerships-panel hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary text-base">groups</span> Batting Partnerships
+                            </h4>
+                            <button class="text-on-surface-variant hover:text-white material-symbols-outlined text-sm" id="sc-close-partnerships">close</button>
+                        </div>
+                        <div id="sc-partnerships-list">
+                            <div class="text-xs text-on-surface-variant italic text-center py-4">No partnerships recorded yet.</div>
+                        </div>
+                    </div>
+
+                    <div id="sc-extras-panel" class="partnerships-panel hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary text-base">add_circle</span> Extras Breakdown
+                            </h4>
+                            <button class="text-on-surface-variant hover:text-white material-symbols-outlined text-sm" id="sc-close-extras">close</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div class="flex justify-between p-2 bg-white/5 rounded-lg"><span class="text-on-surface-variant">Wides</span><span class="font-bold" id="sc-extras-wide">0</span></div>
+                            <div class="flex justify-between p-2 bg-white/5 rounded-lg"><span class="text-on-surface-variant">No Balls</span><span class="font-bold" id="sc-extras-nb">0</span></div>
+                            <div class="flex justify-between p-2 bg-white/5 rounded-lg"><span class="text-on-surface-variant">Byes</span><span class="font-bold" id="sc-extras-byes">0</span></div>
+                            <div class="flex justify-between p-2 bg-white/5 rounded-lg"><span class="text-on-surface-variant">Leg Byes</span><span class="font-bold" id="sc-extras-lb">0</span></div>
+                            <div class="col-span-2 flex justify-between p-2 bg-secondary/10 rounded-lg border border-secondary/20">
+                                <span class="font-bold text-secondary">Total Extras</span>
+                                <span class="font-black text-secondary" id="sc-extras-total">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile: End Innings button -->
+                    <div class="lg:hidden" id="sc-mobile-end-wrapper">
+                        <button id="sc-btn-end-innings-mobile" class="w-full py-3 bg-red-500/80 hover:bg-red-500 text-white font-black rounded-xl text-sm transition-all hidden">COMPLETE INNINGS</button>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Match Info + Commentary (desktop only) -->
+                <div class="lg:col-span-4 hidden lg:flex flex-col gap-4">
+                    <div class="glass-card p-5 rounded-2xl">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-sm">info</span> Match Info
+                        </h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between"><span class="text-on-surface-variant">Overs Limit</span><span class="font-bold" id="sc-info-overs">5</span></div>
+                            <div class="flex justify-between"><span class="text-on-surface-variant">Projected Score</span><span class="font-bold text-secondary" id="sc-info-proj">0</span></div>
+                            <div class="flex justify-between"><span class="text-on-surface-variant">Total Extras</span><span class="font-bold" id="sc-info-extras">0</span></div>
+                            <div class="flex justify-between"><span class="text-on-surface-variant">Balls Remaining</span><span class="font-bold text-secondary" id="sc-info-balls-left">—</span></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl flex flex-col" style="height: 340px;">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-sm">campaign</span> Commentary
+                        </h3>
+                        <div class="flex-1 overflow-y-auto space-y-2 text-xs pr-1" id="sc-commentary-feed">
+                            <div class="text-on-surface-variant italic text-center py-8">Ball-by-ball updates appear here.</div>
+                        </div>
+                    </div>
+
+                    <button id="sc-btn-end-innings" class="w-full py-3 bg-red-500/80 hover:bg-red-500 text-white font-black rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-95 shadow-md hidden">COMPLETE INNINGS</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== WICKET MODAL ===== -->
+        <div id="sc-wicket-modal" class="scorecard-modal-overlay hidden">
+            <div class="scorecard-modal-panel max-w-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-red-400 flex items-center gap-2"><span class="material-symbols-outlined text-base">warning</span> Record Wicket</h3>
+                    <button class="material-symbols-outlined text-on-surface-variant hover:text-white text-sm" id="sc-wicket-close">close</button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs uppercase text-on-surface-variant mb-1">Who got out?</label>
+                        <select id="sc-wicket-who" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-sm text-white"></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-on-surface-variant mb-1">Dismissal Type</label>
+                        <select id="sc-wicket-type" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-sm text-white">
+                            <option value="Bowled">Bowled</option>
+                            <option value="Caught">Caught</option>
+                            <option value="LBW">LBW</option>
+                            <option value="Run Out">Run Out</option>
+                            <option value="Stumped">Stumped</option>
+                            <option value="Hit Wicket">Hit Wicket</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-on-surface-variant mb-1">Runs scored on this ball</label>
+                        <select id="sc-wicket-runs" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-sm text-white">
+                            <option value="0">0 runs</option>
+                            <option value="1">1 run</option>
+                            <option value="2">2 runs</option>
+                            <option value="3">3 runs</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-on-surface-variant mb-1">Incoming Batsman</label>
+                        <input type="text" id="sc-wicket-search" class="w-full bg-white/5 border border-white/10 rounded-xl p-2 text-sm text-white mb-2" placeholder="🔍 Search player...">
+                        <select id="sc-wicket-incoming" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-sm text-white"></select>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button id="sc-wicket-confirm" class="flex-1 py-3 bg-red-500 text-white font-black rounded-xl text-sm hover:bg-red-600 transition-all">Confirm Wicket</button>
+                        <button id="sc-wicket-cancel" class="flex-1 py-3 bg-white/5 border border-white/10 text-on-surface-variant rounded-xl text-sm">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RETIRE MODAL ===== -->
+        <div id="sc-retire-modal" class="scorecard-modal-overlay hidden">
+            <div class="scorecard-modal-panel max-w-md">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-yellow-400 flex items-center gap-2"><span class="material-symbols-outlined text-base">exit_to_app</span> Retire Batsman</h3>
+                    <button class="material-symbols-outlined text-on-surface-variant hover:text-white text-sm" id="sc-retire-close">close</button>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs uppercase text-on-surface-variant mb-1">Who is retiring?</label>
+                        <select id="sc-retire-who" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-sm text-white"></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase text-on-surface-variant mb-1">Replacement Batsman</label>
+                        <input type="text" id="sc-retire-search" class="w-full bg-white/5 border border-white/10 rounded-xl p-2 text-sm text-white mb-2" placeholder="🔍 Search player...">
+                        <select id="sc-retire-incoming" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-sm text-white"></select>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button id="sc-retire-confirm" class="flex-1 py-3 bg-yellow-500 text-on-secondary font-black rounded-xl text-sm hover:bg-yellow-400 transition-all">Confirm Retirement</button>
+                        <button id="sc-retire-cancel" class="flex-1 py-3 bg-white/5 border border-white/10 text-on-surface-variant rounded-xl text-sm">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SCORECARD MODAL ===== -->
+        <div id="sc-scorecard-modal" class="scorecard-modal-overlay hidden">
+            <div class="scorecard-modal-panel">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-black text-lg text-white" id="sc-card-match-title">Match Scorecard</h3>
+                        <div class="text-xs text-secondary font-bold mt-0.5" id="sc-card-match-score"></div>
+                    </div>
+                    <button class="material-symbols-outlined text-on-surface-variant hover:text-white p-1" id="sc-scorecard-close">close</button>
+                </div>
+                <!-- Tabs -->
+                <div class="flex gap-1 bg-white/5 rounded-xl p-1 mb-4">
+                    <button class="scorecard-tab-btn active flex-1" id="sc-card-tab-batting">Batting</button>
+                    <button class="scorecard-tab-btn flex-1" id="sc-card-tab-bowling">Bowling</button>
+                    <button class="scorecard-tab-btn flex-1" id="sc-card-tab-fow">Fall of Wkts</button>
+                </div>
+                <!-- Batting Panel -->
+                <div id="sc-card-batting-panel">
+                    <div class="overflow-x-auto">
+                        <table class="scorecard-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left; min-width:100px;">Batsman</th>
+                                    <th style="text-align:left; font-size:0.65rem; color:#909097; min-width:110px;">Dismissal</th>
+                                    <th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sc-card-batting-body">
+                                <tr><td colspan="7" class="text-center text-on-surface-variant italic py-6">No batting data yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 p-3 bg-white/5 rounded-xl text-xs flex justify-between items-center">
+                        <span class="text-on-surface-variant font-bold uppercase tracking-wider">Extras</span>
+                        <span class="font-black text-white" id="sc-card-extras-total">0</span>
+                    </div>
+                    <div class="mt-2 p-3 bg-secondary/10 border border-secondary/20 rounded-xl text-sm flex justify-between items-center">
+                        <span class="text-secondary font-black uppercase tracking-wider" id="sc-card-batting-team">Total</span>
+                        <span class="font-black text-secondary text-lg" id="sc-card-total-score">0/0</span>
+                    </div>
+                </div>
+                <!-- Bowling Panel -->
+                <div id="sc-card-bowling-panel" class="hidden">
+                    <div class="overflow-x-auto">
+                        <table class="scorecard-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left;">Bowler</th>
+                                    <th>O</th><th>M</th><th>R</th><th>W</th><th>ER</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sc-card-bowling-body">
+                                <tr><td colspan="6" class="text-center text-on-surface-variant italic py-6">No bowling data yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Fall of Wickets -->
+                <div id="sc-card-fow-panel" class="hidden">
+                    <div id="sc-card-fow-list" class="space-y-2 text-sm">
+                        <div class="text-on-surface-variant italic text-center py-8">No wickets recorded yet.</div>
                     </div>
                 </div>
             </div>

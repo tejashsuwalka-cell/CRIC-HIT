@@ -313,6 +313,534 @@ input:checked + .slider:before {
     font-weight: 700;
 }
 
+/* ==================== LIVE SCORING VIEW ==================== */
+
+/* Scoring Page Layout */
+#view-scoring {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Scoreboard header card */
+.scoring-header-card {
+    background: rgba(29, 32, 34, 0.55);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 1.25rem 1.5rem;
+}
+
+/* Batsman/Bowler stat table */
+.scoring-stat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.scoring-stat-table thead th {
+    color: #909097;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.35rem 0.4rem;
+    text-align: right;
+}
+
+.scoring-stat-table thead th:first-child {
+    text-align: left;
+}
+
+.scoring-stat-table tbody td {
+    padding: 0.45rem 0.4rem;
+    text-align: right;
+    color: #e0e3e5;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.scoring-stat-table tbody td:first-child {
+    text-align: left;
+    color: #adc6ff;
+    font-weight: 600;
+}
+
+.scoring-stat-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Extra toggle chips (checkbox-style) */
+.extra-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.75rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #909097;
+    transition: all 0.2s ease;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.extra-toggle-btn:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #e0e3e5;
+}
+
+.extra-toggle-btn.active {
+    border-color: #adc6ff;
+    background: rgba(173, 198, 255, 0.12);
+    color: #adc6ff;
+}
+
+.extra-toggle-btn.active.wicket-btn {
+    border-color: #f87171;
+    background: rgba(248, 113, 113, 0.12);
+    color: #f87171;
+}
+
+.extra-toggle-btn .toggle-box {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid currentColor;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.extra-toggle-btn.active .toggle-box {
+    background: currentColor;
+}
+
+.extra-toggle-btn.active .toggle-box::after {
+    content: '';
+    width: 8px;
+    height: 5px;
+    border-left: 2px solid #101415;
+    border-bottom: 2px solid #101415;
+    transform: rotate(-45deg) translateY(-1px);
+    display: block;
+}
+
+/* Scoring action buttons (Retire, Swap Batsman) */
+.scoring-action-btn {
+    flex: 1;
+    padding: 0.65rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    border: 1.5px solid transparent;
+}
+
+.scoring-action-btn:active {
+    transform: scale(0.95);
+}
+
+.scoring-action-btn.retire-btn {
+    background: rgba(234, 179, 8, 0.12);
+    border-color: rgba(234, 179, 8, 0.35);
+    color: #fbbf24;
+}
+
+.scoring-action-btn.retire-btn:hover {
+    background: rgba(234, 179, 8, 0.2);
+}
+
+.scoring-action-btn.swap-btn {
+    background: rgba(173, 198, 255, 0.12);
+    border-color: rgba(173, 198, 255, 0.3);
+    color: #adc6ff;
+}
+
+.scoring-action-btn.swap-btn:hover {
+    background: rgba(173, 198, 255, 0.2);
+}
+
+/* Scoring sidebar buttons (Undo, Partnerships, Extras, Scorecard) */
+.scoring-sidebar-btn {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e3e5;
+    text-align: center;
+}
+
+.scoring-sidebar-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.scoring-sidebar-btn:active {
+    transform: scale(0.95);
+}
+
+.scoring-sidebar-btn.undo-btn {
+    background: rgba(248, 113, 113, 0.08);
+    border-color: rgba(248, 113, 113, 0.2);
+    color: #f87171;
+}
+
+.scoring-sidebar-btn.undo-btn:hover {
+    background: rgba(248, 113, 113, 0.15);
+}
+
+/* Circular run numpad buttons */
+.scoring-numpad-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    border: 2px solid rgba(173, 198, 255, 0.35);
+    background: rgba(173, 198, 255, 0.05);
+    color: #e0e3e5;
+    transition: all 0.15s ease;
+    user-select: none;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.scoring-numpad-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0);
+    transition: background 0.15s;
+}
+
+.scoring-numpad-btn:hover {
+    border-color: rgba(173, 198, 255, 0.7);
+    background: rgba(173, 198, 255, 0.12);
+    transform: scale(1.05);
+}
+
+.scoring-numpad-btn:active {
+    transform: scale(0.92);
+    border-color: #adc6ff;
+}
+
+.scoring-numpad-btn.four-btn {
+    border-color: rgba(74, 222, 128, 0.5);
+    background: rgba(74, 222, 128, 0.08);
+    color: #4ade80;
+}
+
+.scoring-numpad-btn.four-btn:hover {
+    border-color: #4ade80;
+    background: rgba(74, 222, 128, 0.18);
+}
+
+.scoring-numpad-btn.six-btn {
+    border-color: rgba(74, 222, 128, 0.6);
+    background: rgba(74, 222, 128, 0.12);
+    color: #4ade80;
+    font-size: 1.2rem;
+}
+
+.scoring-numpad-btn.six-btn:hover {
+    border-color: #4ade80;
+    background: rgba(74, 222, 128, 0.22);
+}
+
+.scoring-numpad-btn.more-btn {
+    font-size: 1.4rem;
+    border-style: dashed;
+    color: #909097;
+}
+
+.scoring-numpad-btn.more-btn:hover {
+    border-color: rgba(173, 198, 255, 0.5);
+    color: #adc6ff;
+}
+
+/* Ball chips in "This Over" row */
+.over-ball-chip {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 800;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    color: #e0e3e5;
+    flex-shrink: 0;
+}
+
+.over-ball-chip.chip-four { border-color: rgba(74, 222, 128, 0.5); background: rgba(74, 222, 128, 0.12); color: #4ade80; }
+.over-ball-chip.chip-six { border-color: rgba(74, 222, 128, 0.7); background: rgba(74, 222, 128, 0.2); color: #4ade80; font-size: 0.8rem; }
+.over-ball-chip.chip-wicket { border-color: rgba(248, 113, 113, 0.6); background: rgba(248, 113, 113, 0.15); color: #f87171; }
+.over-ball-chip.chip-wide, .over-ball-chip.chip-nb { border-color: rgba(251, 191, 36, 0.5); background: rgba(251, 191, 36, 0.1); color: #fbbf24; }
+.over-ball-chip.chip-dot { color: #909097; }
+
+/* Role lock banner */
+.scoring-lock-banner {
+    background: rgba(251, 191, 36, 0.08);
+    border: 1.5px solid rgba(251, 191, 36, 0.25);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: #fbbf24;
+    font-weight: 600;
+}
+
+/* Scorecard modal */
+.scorecard-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+    animation: fadeIn 0.2s ease;
+}
+
+@media (min-width: 768px) {
+    .scorecard-modal-overlay {
+        align-items: center;
+        padding: 2rem;
+    }
+}
+
+.scorecard-modal-panel {
+    background: #12181f;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px 24px 0 0;
+    width: 100%;
+    max-width: 700px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 768px) {
+    .scorecard-modal-panel {
+        border-radius: 20px;
+        max-height: 85vh;
+    }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.scorecard-tab-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: #909097;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.scorecard-tab-btn.active {
+    background: rgba(173, 198, 255, 0.12);
+    color: #adc6ff;
+}
+
+.scorecard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+}
+
+.scorecard-table thead th {
+    color: #909097;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 0.5rem;
+    text-align: right;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.scorecard-table thead th:first-child {
+    text-align: left;
+    min-width: 100px;
+}
+
+.scorecard-table tbody td {
+    padding: 0.6rem 0.5rem;
+    text-align: right;
+    color: #c7c6cd;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: middle;
+}
+
+.scorecard-table tbody td:first-child {
+    text-align: left;
+    color: #e0e3e5;
+    font-weight: 600;
+}
+
+.scorecard-table tbody td.dismissal-info {
+    color: #909097;
+    font-size: 0.68rem;
+    text-align: left;
+    font-style: italic;
+}
+
+.scorecard-table tbody .top-scorer td:first-child {
+    color: #adc6ff;
+}
+
+/* Partnerships panel (inline, not modal) */
+.partnerships-panel {
+    background: rgba(20, 25, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+
+.partnership-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.78rem;
+}
+
+.partnership-row:last-child {
+    border-bottom: none;
+}
+
+/* Mobile bottom nav for scoring */
+.scoring-mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(16, 20, 21, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.5rem 1rem;
+    z-index: 50;
+}
+
+@media (max-width: 1023px) {
+    .scoring-mobile-nav {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+
+/* Numpad grid responsive */
+.scoring-numpad-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.65rem;
+    align-items: center;
+    justify-items: center;
+}
+
+@media (max-width: 400px) {
+    .scoring-numpad-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 1rem;
+    }
+    .scoring-numpad-grid {
+        gap: 0.45rem;
+    }
+}
+
+/* Disabled state for read-only */
+.scoring-disabled .scoring-numpad-btn,
+.scoring-disabled .extra-toggle-btn,
+.scoring-disabled .scoring-action-btn,
+.scoring-disabled .scoring-sidebar-btn:not(.view-only-allowed) {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Sub-menu for ... (more runs) */
+.more-runs-popup {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1d2022;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.4rem;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    animation: popIn 0.15s ease;
+    white-space: nowrap;
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: translateX(-50%) scale(0.9); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+.more-run-option {
+    padding: 0.4rem 0.75rem;
+    border-radius: 9px;
+    background: rgba(173, 198, 255, 0.08);
+    border: 1px solid rgba(173, 198, 255, 0.2);
+    color: #adc6ff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.more-run-option:hover {
+    background: rgba(173, 198, 255, 0.2);
+}
+
 /* ==================== PROFESSIONAL UMPIRE DASHBOARD LOCK LAYOUT ==================== */
 @media (min-width: 1024px) {
     #view-umpire {
