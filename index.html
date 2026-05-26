@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Cric-Hit Pro | Real-Time Cricket Scoring & Community Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="./src/styles.css">
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#001a42",
+                        "on-surface": "#e0e3e5",
+                        "inverse-surface": "#e0e3e5",
+                        "tertiary-fixed-dim": "#dfc1a7",
+                        "on-tertiary": "#3f2d1a",
+                        "error-container": "#93000a",
+                        "primary": "#c2c6db",
+                        "surface-container-high": "#272a2c",
+                        "secondary-fixed": "#d8e2ff",
+                        "inverse-on-surface": "#2d3133",
+                        "on-primary-fixed": "#161b2b",
+                        "primary-container": "#0a0f1e",
+                        "on-secondary": "#002e6a",
+                        "on-tertiary-fixed-variant": "#58432f",
+                        "inverse-primary": "#595e70",
+                        "tertiary-container": "#1a0c01",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "primary-fixed": "#dee1f7",
+                        "surface-variant": "#323537",
+                        "on-primary-fixed-variant": "#414658",
+                        "primary-fixed-dim": "#c2c6db",
+                        "secondary": "#adc6ff",
+                        "on-error-container": "#ffdad6",
+                        "on-surface-variant": "#c7c6cd",
+                        "tertiary": "#dfc1a7",
+                        "on-secondary-fixed-variant": "#004395",
+                        "tertiary-fixed": "#fdddc1",
+                        "surface-bright": "#363a3b",
+                        "background": "#101415",
+                        "on-secondary-container": "#e6ecff",
+                        "on-primary-container": "#777b8e",
+                        "outline": "#909097",
+                        "surface": "#101415",
+                        "surface-container-lowest": "#0b0f10",
+                        "secondary-container": "#0566d9",
+                        "surface-dim": "#101415",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#281807",
+                        "outline-variant": "#46464c",
+                        "on-tertiary-container": "#907760",
+                        "error": "#ffb4ab",
+                        "on-primary": "#2b3040",
+                        "surface-container-low": "#191c1e",
+                        "surface-container-highest": "#323537",
+                        "surface-tint": "#c2c6db",
+                        "surface-container": "#1d2022",
+                        "on-background": "#e0e3e5",
+                        "accent-neon": "#ccff00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "stack-xl": "64px",
+                        "margin-desktop": "48px",
+                        "stack-lg": "32px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Montserrat"],
+                        "headline-md": ["Montserrat"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-body-md text-on-surface">
+
+    <!-- Shared Header Navigation -->
+    <header class="sticky top-0 z-50 flex items-center justify-between px-6 lg:px-12 h-20 w-full bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(5,102,217,0.1)]">
+        <div class="flex items-center gap-stack-md">
+            <span class="font-headline-md text-headline-md font-black text-secondary tracking-tighter cursor-pointer nav-link" data-target="landing">CRIC-HIT</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-6">
+            <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#landing" data-target="landing">Home</a>
+            <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#umpire" data-target="umpire">Umpire Panel</a>
+            <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#player" data-target="player">Player Portal</a>
+            <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#public" data-target="public">Live Scoreboard</a>
+            <a class="font-label-md text-label-md py-2 px-4 rounded-lg text-on-surface-variant hover:text-white nav-link" href="#host" data-target="host">Host Panel</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <div id="header-user-badge" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs">
+                <span class="w-2 h-2 bg-accent-neon rounded-full shadow-[0_0_8px_#ccff00]"></span>
+                <span id="header-user-name" class="font-bold text-on-surface">Guest</span>
+            </div>
+            <button class="material-symbols-outlined text-secondary hover:bg-white/5 p-2 rounded-full transition-colors nav-link" data-target="player" title="Player Profile">account_circle</button>
+        </div>
+    </header>
+
+    <!-- ==================== VIEW: LANDING ==================== -->
+    <div id="view-landing" class="view-container">
+        <main>
+            <!-- Hero Section -->
+            <section class="relative min-h-[700px] flex items-center justify-center overflow-hidden px-margin-mobile lg:px-margin-desktop">
+                <div class="absolute inset-0 z-0">
+                    <img class="w-full h-full object-cover opacity-35 scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClkyCbY_KNeU-dz4lDIWolEj77hpdh-oBZ6yII61jKSVCqxtcvsoMCIR7nxaZlxaxqDteUScJQOfHqhoyHO-51qpQucsTG5g4V5ATWQwVH5D2g-UaNtJyKFW6ixamur3D6JeKUy2qyh_sSGmKp_taIptTFar0iKrulEtUKs9WyITGWjaz5hUVwKB3pwrJUqxRbIBuBzXTe7dsVSo2NopcdZS_7KMBGkvPSW6i7ZeBVRpKpBfJSd-YG_hooPF2y0mrnF40TZrIiy6Aj">
+                    <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/80"></div>
+                </div>
+                <div class="relative z-10 max-w-4xl text-center entrance-anim" style="animation-delay: 0.1s;">
+                    <span class="inline-block px-4 py-1 rounded-full border border-secondary/50 bg-secondary/10 text-secondary font-label-md text-label-md mb-stack-md uppercase tracking-widest">Real-Time Sync Platform</span>
+                    <h1 class="font-display-lg text-[40px] md:text-display-lg mb-stack-lg leading-tight tracking-tighter">
+                        Experience The Pulse <br><span class="text-secondary">Of The Pitch Live</span>
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant/80 mb-stack-xl max-w-2xl mx-auto">
+                        A clean, real-time cricket companion app. Open panels on different devices to sync scorekeeper clicks, player dashboards, public scoreboards, and community chats instantly.
+                    </p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-4">
+                        <button class="nav-link p-6 glass-card rounded-2xl flex flex-col items-center gap-2 hover:border-secondary transition-all" data-target="umpire">
+                            <span class="material-symbols-outlined text-4xl text-secondary">sports_cricket</span>
+                            <span class="font-bold text-sm">Umpire Panel</span>
+                            <span class="text-xs text-on-surface-variant">Log scores live</span>
+                        </button>
+                        <button class="nav-link p-6 glass-card rounded-2xl flex flex-col items-center gap-2 hover:border-secondary transition-all" data-target="player">
+                            <span class="material-symbols-outlined text-4xl text-secondary">person</span>
+                            <span class="font-bold text-sm">Player Portal</span>
+                            <span class="text-xs text-on-surface-variant">Stats & profiles</span>
+                        </button>
+                        <button class="nav-link p-6 glass-card rounded-2xl flex flex-col items-center gap-2 hover:border-secondary transition-all" data-target="public">
+                            <span class="material-symbols-outlined text-4xl text-secondary">tv</span>
+                            <span class="font-bold text-sm">Public Board</span>
+                            <span class="text-xs text-on-surface-variant">Watch real-time</span>
+                        </button>
+                        <button class="nav-link p-6 glass-card rounded-2xl flex flex-col items-center gap-2 hover:border-secondary transition-all" data-target="host">
+                            <span class="material-symbols-outlined text-4xl text-secondary">trophy</span>
+                            <span class="font-bold text-sm">Host Dashboard</span>
+                            <span class="text-xs text-on-surface-variant">Organize leagues</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ==================== VIEW: UMPIRE PANEL ==================== -->
+    <div id="view-umpire" class="view-container hidden p-6 lg:p-12 max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="font-headline-lg text-3xl">Umpire Match Centre</h1>
+                <p class="text-sm text-on-surface-variant">Set up and record match events. All clicks sync instantly to the player and public dashboards.</p>
+            </div>
+            <div class="flex items-center gap-2 bg-error-container/30 px-4 py-2 rounded-xl border border-error-container">
+                <span class="w-2.5 h-2.5 bg-error rounded-full live-pulse"></span>
+                <span class="text-xs font-bold text-on-error-container">MATCH CONTROL ACTIVE</span>
+            </div>
+        </div>
+
+        <!-- Umpire Setup Mode -->
+        <div id="umpire-setup-card" class="glass-card p-8 rounded-3xl mb-8">
+            <h2 class="font-headline-md text-xl mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary">settings</span> Setup New Innings
+            </h2>
+            <div class="mb-6">
+                <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Link to Scheduled Tournament Match</label>
+                <select id="umpire-match-select" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary">
+                    <option value="custom">-- Quick Start (Custom Match / No League Link) --</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Batting Team</label>
+                    <input type="text" id="umpire-team-a" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-secondary focus:ring-0" placeholder="e.g. Stormers">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Bowling Team</label>
+                    <input type="text" id="umpire-team-b" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-secondary focus:ring-0" placeholder="e.g. Titans">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Match Overs</label>
+                    <input type="number" id="umpire-overs" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-secondary focus:ring-0" placeholder="5" value="5">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Striker Batsman</label>
+                    <div class="flex flex-col gap-2">
+                        <input type="text" id="umpire-striker-search" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:border-secondary focus:ring-0" placeholder="🔍 Filter striker...">
+                        <select id="umpire-striker-select" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary"></select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Non-Striker Batsman</label>
+                    <div class="flex flex-col gap-2">
+                        <input type="text" id="umpire-nonstriker-search" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:border-secondary focus:ring-0" placeholder="🔍 Filter non-striker...">
+                        <select id="umpire-nonstriker-select" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary"></select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Current Bowler</label>
+                    <div class="flex flex-col gap-2">
+                        <input type="text" id="umpire-bowler-search" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-xs text-white focus:border-secondary focus:ring-0" placeholder="🔍 Filter bowler...">
+                        <select id="umpire-bowler-select" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary"></select>
+                    </div>
+                </div>
+                
+                <!-- Toss configuration (Image 8) -->
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Toss Won By</label>
+                    <select id="umpire-toss-won" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary">
+                        <option value="teamA">Batting Team (Host)</option>
+                        <option value="teamB">Bowling Team (Visitor)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Opted to</label>
+                    <select id="umpire-toss-decision" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary">
+                        <option value="Bat">Bat</option>
+                        <option value="Bowl">Bowl</option>
+                    </select>
+                </div>
+            </div>
+            <button id="btn-start-match" class="mt-8 px-8 py-4 bg-secondary text-on-secondary-fixed rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all w-full md:w-auto shadow-lg">
+                START MATCH INNINGS
+            </button>
+        </div>
+
+        <!-- Umpire Scorekeeper Control Dashboard -->
+        <div id="umpire-scoring-dashboard" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Scoring Input Pad -->
+            <div class="lg:col-span-8 space-y-6 lg:space-y-0">
+                <!-- Scoreboard Summary Banner -->
+                <div class="glass-card p-6 rounded-2xl border-secondary/20 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <div class="text-xs text-on-surface-variant uppercase tracking-wider mb-0.5" id="umpire-teams-header">Stormers vs Titans</div>
+                        <!-- Toss output (Image 8) -->
+                        <div class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mb-1.5" id="umpire-toss-display">Toss info loading...</div>
+                        <div class="text-3xl font-black text-secondary">
+                            <span id="umpire-live-runs">0</span>/<span id="umpire-live-wickets">0</span> 
+                            <span class="text-lg font-normal text-on-surface-variant ml-2">(<span id="umpire-live-overs">0.0</span>/<span id="umpire-target-overs">5</span> Ov)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="text-center">
+                            <div class="text-xs text-on-surface-variant">CRR</div>
+                            <div class="font-bold text-lg" id="umpire-live-crr">0.00</div>
+                        </div>
+                        <div class="text-center">
+                            <!-- Projected Score calculator (Image 4) -->
+                            <div class="text-xs text-on-surface-variant">PROJECTED SCORE</div>
+                            <div class="font-bold text-lg text-secondary" id="umpire-projected-score">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Striker & Non-Striker Status Pad -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-5 rounded-2xl relative border-secondary/40 border-l-4" id="umpire-striker-card">
+                        <div class="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-[10px] font-bold text-secondary">ON STRIKE</div>
+                        <div class="text-xs text-on-surface-variant uppercase">Striker</div>
+                        <div class="font-bold text-lg text-white mb-2" id="umpire-strike-name">Batsman 1</div>
+                        <div class="text-2xl font-black text-secondary">
+                            <span id="umpire-strike-runs">0</span> <span class="text-sm font-normal text-on-surface-variant">runs (<span id="umpire-strike-balls">0</span> balls)</span>
+                        </div>
+                        <div class="text-xs text-on-surface-variant mt-1">4s: <span id="umpire-strike-fours">0</span> | 6s: <span id="umpire-strike-sixes">0</span></div>
+                    </div>
+                    <div class="glass-card p-5 rounded-2xl" id="umpire-nonstriker-card">
+                        <div class="text-xs text-on-surface-variant uppercase">Non-Striker</div>
+                        <div class="font-bold text-lg text-white mb-2" id="umpire-nonstrike-name">Batsman 2</div>
+                        <div class="text-2xl font-bold text-white">
+                            <span id="umpire-nonstrike-runs">0</span> <span class="text-sm font-normal text-on-surface-variant">runs (<span id="umpire-nonstrike-balls">0</span> balls)</span>
+                        </div>
+                        <div class="text-xs text-on-surface-variant mt-1">4s: <span id="umpire-nonstrike-fours">0</span> | 6s: <span id="umpire-nonstrike-sixes">0</span></div>
+                    </div>
+                </div>
+
+                <!-- Bowler Status Pad -->
+                <div class="glass-card p-5 rounded-2xl flex justify-between items-center">
+                    <div>
+                        <div class="text-xs text-on-surface-variant uppercase">Current Bowler</div>
+                        <div class="font-bold text-lg text-white flex items-center gap-2">
+                            <span id="umpire-bowl-name">Bowler 1</span>
+                            <!-- Bowler Wicket indicators (Image 4) -->
+                            <span id="umpire-bowl-wickets-icons" class="flex gap-0.5 text-red-500"></span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-black text-secondary">
+                            <span id="umpire-bowl-wickets">0</span> <span class="text-sm font-normal text-on-surface-variant">Wkts / <span id="umpire-bowl-runs">0</span> Runs</span>
+                        </div>
+                        <div class="text-xs text-on-surface-variant mt-1">Overs: <span id="umpire-bowl-overs">0.0</span></div>
+                    </div>
+                </div>
+
+                <!-- scoring pad actions -->
+                <div class="glass-card p-6 rounded-3xl space-y-6">
+                    <h3 class="font-label-md text-xs uppercase tracking-wider text-on-surface-variant">Record Delivery Result</h3>
+                    <!-- Runs Pad Grid with +5 and +7 buttons (Image 4 & 9) -->
+                    <div class="grid grid-cols-4 md:grid-cols-8 gap-2.5">
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-black text-lg text-white hover:border-secondary transition-all btn-umpire-run" data-val="0">0</button>
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-black text-lg text-white hover:border-secondary transition-all btn-umpire-run" data-val="1">1</button>
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-black text-lg text-white hover:border-secondary transition-all btn-umpire-run" data-val="2">2</button>
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-black text-lg text-white hover:border-secondary transition-all btn-umpire-run" data-val="3">3</button>
+                        <button class="umpire-grid-btn p-4 bg-green-500/10 border border-green-500/20 rounded-xl font-black text-lg text-green-400 hover:border-green-400 transition-all btn-umpire-run" data-val="4">4</button>
+                        <button class="umpire-grid-btn p-4 bg-green-500/15 border border-green-500/30 rounded-xl font-black text-lg text-green-400 hover:border-green-400 transition-all btn-umpire-run" data-val="6">6</button>
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-black text-sm text-white hover:border-secondary transition-all btn-umpire-run" data-val="5">+5</button>
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-black text-sm text-white hover:border-secondary transition-all btn-umpire-run" data-val="7">+7</button>
+                    </div>
+
+                    <!-- Extras & Wickets Grid - Added Leg Bye (Image 4 & 9) -->
+                    <div class="grid grid-cols-3 md:grid-cols-5 gap-3">
+                        <button class="umpire-grid-btn p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-xs text-yellow-400 btn-umpire-extra" data-type="wide">Wide</button>
+                        <button class="umpire-grid-btn p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-xs text-yellow-400 btn-umpire-extra" data-type="no-ball">No Ball</button>
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-bold text-xs text-white btn-umpire-extra" data-type="bye">Bye</button>
+                        <button class="umpire-grid-btn p-4 bg-white/5 border border-white/10 rounded-xl font-bold text-xs text-white btn-umpire-extra" data-type="leg-bye">Leg Bye</button>
+                        <button id="btn-umpire-wicket" class="umpire-grid-btn p-4 bg-red-500/20 border border-red-500/40 rounded-xl font-black text-xs text-red-400 hover:bg-red-500/30 transition-all">WICKET</button>
+                    </div>
+
+                    <!-- Control Row - Added Retire Batsman (Image 9) -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/5">
+                        <div class="flex gap-2">
+                            <button id="btn-swap-striker" class="px-3 py-2.5 bg-white/5 border border-white/10 text-xs font-bold rounded-lg hover:bg-white/10 transition-all flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">swap_horiz</span> Swap Striker
+                            </button>
+                            <button id="btn-retire-batsman" class="px-3 py-2.5 bg-yellow-500/15 border border-yellow-500/30 text-xs font-bold text-yellow-400 rounded-lg hover:bg-yellow-500/25 transition-all flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">logout</span> Retire Batsman
+                            </button>
+                            <button id="btn-undo-ball" class="px-3 py-2.5 bg-white/5 border border-white/10 text-xs font-bold text-on-surface-variant rounded-lg hover:text-white hover:bg-white/10 transition-all flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">undo</span> Undo
+                            </button>
+                        </div>
+                        <button id="btn-end-innings" class="px-6 py-2.5 bg-red-500 text-white text-xs font-black rounded-lg hover:scale-105 active:scale-95 transition-all shadow-md">
+                            COMPLETE INNINGS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Umpire Side Logs (Wickets Picker / Match Info) -->
+            <div class="lg:col-span-4 space-y-6 lg:space-y-0">
+                <!-- Wicket Event Modal Helper -->
+                <div id="umpire-wicket-helper" class="hidden glass-card p-6 rounded-2xl border-red-500/30 bg-red-500/5 space-y-4">
+                    <h4 class="font-headline-md text-sm text-red-400 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">warning</span> Record Dismissal Details
+                    </h4>
+                    <div>
+                        <label class="block text-[10px] uppercase text-on-surface-variant mb-1">Who got out?</label>
+                        <select id="umpire-wicket-player-select" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-2.5 text-xs text-white">
+                            <option id="wicket-opt-striker" value="striker">Striker</option>
+                            <option id="wicket-opt-nonstriker" value="non-striker">Non-Striker</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-on-surface-variant mb-1">Dismissal Type</label>
+                        <select id="umpire-wicket-type-select" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-2.5 text-xs text-white">
+                            <option value="Bowled">Bowled</option>
+                            <option value="Caught">Caught</option>
+                            <option value="LBW">LBW</option>
+                            <option value="Run Out">Run Out</option>
+                            <option value="Stumped">Stumped</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-on-surface-variant mb-1">Select Incoming Batsman</label>
+                        <input type="text" id="umpire-incoming-search" class="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-xs text-white mb-2" placeholder="🔍 Filter incoming batsman...">
+                        <select id="umpire-incoming-batsman-select" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-2.5 text-xs text-white"></select>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button id="btn-submit-wicket" class="flex-1 py-2 bg-red-500 text-white font-bold rounded-lg text-xs">Confirm Out</button>
+                        <button id="btn-cancel-wicket" class="flex-1 py-2 bg-white/5 border border-white/10 text-on-surface-variant rounded-lg text-xs">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Retire Batsman Modal Helper (Image 9) -->
+                <div id="umpire-retire-helper" class="hidden glass-card p-6 rounded-2xl border-yellow-500/30 bg-yellow-500/5 space-y-4">
+                    <h4 class="font-headline-md text-sm text-yellow-400 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">exit_to_app</span> Retire Batsman
+                    </h4>
+                    <p class="text-[11px] text-on-surface-variant">Select which player is retiring. This will swap them out without giving a wicket to the bowler.</p>
+                    <div>
+                        <label class="block text-[10px] uppercase text-on-surface-variant mb-1">Select Retiring Batsman</label>
+                        <select id="umpire-retire-player-select" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-2.5 text-xs text-white">
+                            <option id="retire-opt-striker" value="striker">Striker</option>
+                            <option id="retire-opt-nonstriker" value="non-striker">Non-Striker</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase text-on-surface-variant mb-1">Select Replacement Batsman</label>
+                        <input type="text" id="umpire-retire-search" class="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-xs text-white mb-2" placeholder="🔍 Filter replacement batsman...">
+                        <select id="umpire-retire-replacement-select" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-2.5 text-xs text-white"></select>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button id="btn-submit-retire" class="flex-1 py-2 bg-yellow-500 text-on-secondary font-bold rounded-lg text-xs">Confirm Retirement</button>
+                        <button id="btn-cancel-retire" class="flex-1 py-2 bg-white/5 border border-white/10 text-on-surface-variant rounded-lg text-xs">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Bowler Over Complete Helper -->
+                <div id="umpire-over-helper" class="hidden glass-card p-6 rounded-2xl border-secondary/30 bg-secondary/5 space-y-4">
+                    <h4 class="font-headline-md text-sm text-secondary flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">check_circle</span> Over Complete!
+                    </h4>
+                    <p class="text-xs text-on-surface-variant">6 legal deliveries recorded. Swap batsmen ends (if needed) and select the next bowler.</p>
+                    <div>
+                        <label class="block text-[10px] uppercase text-on-surface-variant mb-1">Next Bowler</label>
+                        <input type="text" id="umpire-next-bowler-search" class="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-xs text-white mb-2" placeholder="🔍 Filter next bowler...">
+                        <select id="umpire-next-bowler-select" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-2.5 text-xs text-white"></select>
+                    </div>
+                    <button id="btn-start-next-over" class="w-full py-2 bg-secondary text-on-secondary-fixed font-bold rounded-lg text-xs">Start Next Over</button>
+                </div>
+
+                <!-- Recent Balls Log -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="font-label-md text-xs uppercase tracking-wider text-on-surface-variant mb-4">This Over</h3>
+                    <div class="flex flex-wrap gap-2" id="umpire-over-balls-log">
+                        <span class="text-xs text-on-surface-variant italic">No deliveries recorded yet.</span>
+                    </div>
+                </div>
+
+                <!-- Live Match Commentary Feed -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col h-[280px]">
+                    <h3 class="font-label-md text-xs uppercase tracking-wider text-on-surface-variant mb-4">Commentary Log</h3>
+                    <div class="flex-1 overflow-y-auto space-y-3 pr-2 text-xs" id="umpire-commentary-feed">
+                        <div class="text-on-surface-variant italic">Ball-by-ball updates will log here.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW: PLAYER PORTAL ==================== -->
+    <div id="view-player" class="view-container hidden p-6 lg:p-12 max-w-6xl mx-auto">
+        
+        <!-- Registration Card (Visible when profile is empty) -->
+        <div id="player-registration-card" class="glass-card p-8 rounded-3xl max-w-2xl mx-auto">
+            <div class="text-center mb-8">
+                <span class="material-symbols-outlined text-5xl text-secondary mb-2">person_add</span>
+                <h1 class="font-display-lg text-3xl">Register Player Profile</h1>
+                <p class="text-sm text-on-surface-variant mt-1">Start fresh by creating your local profile to track your matches, boundaries, strike rate, and average.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Player Full Name</label>
+                    <input type="text" id="reg-player-name" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-secondary focus:ring-0" placeholder="e.g. Liam Smith">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Age</label>
+                    <input type="number" id="reg-player-age" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-secondary focus:ring-0" placeholder="25">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Batting Style</label>
+                    <select id="reg-player-batting" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary">
+                        <option value="Right-Handed">Right Handed</option>
+                        <option value="Left-Handed">Left Handed</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Bowling Style</label>
+                    <select id="reg-player-bowling" class="w-full bg-surface-container-high border border-white/10 rounded-xl p-3 text-white focus:border-secondary">
+                        <option value="Right-arm Fast">Right-arm Fast</option>
+                        <option value="Left-arm Fast">Left-arm Fast</option>
+                        <option value="Right-arm Offbreak">Right-arm Offbreak</option>
+                        <option value="Left-arm Legbreak">Left-arm Legbreak</option>
+                        <option value="None">None (Pure Batsman)</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs uppercase tracking-wider text-on-surface-variant mb-2">Preferred Team Name</label>
+                    <input type="text" id="reg-player-team" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white focus:border-secondary focus:ring-0" placeholder="e.g. Mumbai Warriors">
+                </div>
+            </div>
+            <button id="btn-submit-registration" class="mt-8 px-8 py-4 bg-secondary text-on-secondary-fixed rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all w-full shadow-lg">
+                CREATE REAL PLAYER PROFILE
+            </button>
+        </div>
+
+        <!-- Player Dashboard Layout -->
+        <div id="player-dashboard-content" class="hidden space-y-8">
+            
+            <!-- Sub-Tabs to switch analytics views (Image 5) -->
+            <div class="flex gap-6 border-b border-white/10">
+                <button id="btn-tab-lifetime" class="sub-tab-btn active py-4 text-sm font-bold">Lifetime Stats</button>
+                <button id="btn-tab-insights" class="sub-tab-btn py-4 text-sm font-bold text-on-surface-variant hover:text-white">CricInsights (Current Form)</button>
+                <button id="btn-tab-compare" class="sub-tab-btn py-4 text-sm font-bold text-on-surface-variant hover:text-white">Compare Players</button>
+                <button id="btn-tab-faceoff" class="sub-tab-btn py-4 text-sm font-bold text-on-surface-variant hover:text-white">Face Off</button>
+            </div>
+
+            <!-- Profile Summary & Analytics Panel -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- User Profile Summary Card -->
+                <div class="lg:col-span-4 glass-card p-6 rounded-3xl relative overflow-hidden flex flex-col justify-between h-[340px]">
+                    <div class="absolute -top-12 -right-12 w-32 h-32 bg-secondary/10 rounded-full blur-2xl"></div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-secondary-container/50 text-secondary px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">REAL ATHLETE</span>
+                            <span class="text-xs text-on-surface-variant flex items-center gap-0.5">
+                                <span class="material-symbols-outlined text-sm">verified</span> Verified
+                            </span>
+                        </div>
+                        <h2 class="font-display-lg text-2xl font-black mb-1" id="dash-player-name">Liam Smith</h2>
+                        <p class="text-xs text-secondary font-bold uppercase tracking-wider mb-6" id="dash-player-team">Team: Mumbai Warriors</p>
+                        
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between border-b border-white/5 pb-2">
+                                <span class="text-on-surface-variant">Age</span>
+                                <span class="font-bold" id="dash-player-age">25</span>
+                            </div>
+                            <div class="flex justify-between border-b border-white/5 pb-2">
+                                <span class="text-on-surface-variant">Batting Style</span>
+                                <span class="font-bold" id="dash-player-bat">Right Handed</span>
+                            </div>
+                            <div class="flex justify-between border-b border-white/5 pb-2">
+                                <span class="text-on-surface-variant">Bowling Style</span>
+                                <span class="font-bold" id="dash-player-bowl">Right-arm Fast</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="btn-reset-profile" class="mt-4 text-xs text-red-400 hover:text-red-300 font-bold uppercase tracking-wider text-left flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs">delete</span> Reset Profile
+                    </button>
+                </div>
+
+                <!-- RIGHT CONTENT AREA: Lifetime Stats vs CricInsights vs Player Compare -->
+                <div class="lg:col-span-8 min-h-[340px]">
+                    <!-- Sub-Panel 1: Lifetime Stats -->
+                    <div id="panel-lifetime" class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <div class="glass-card p-6 rounded-2xl hover:border-secondary/30 transition-all">
+                            <span class="text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider block mb-2">Matches Played</span>
+                            <div class="text-[36px] font-black text-secondary" id="stat-matches">0</div>
+                            <span class="text-[10px] text-on-surface-variant" id="stat-innings">0 innings</span>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl hover:border-secondary/30 transition-all">
+                            <span class="text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider block mb-2">Total Runs</span>
+                            <div class="text-[36px] font-black text-secondary" id="stat-runs">0</div>
+                            <span class="text-[10px] text-on-surface-variant">Overall match runs</span>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl hover:border-secondary/30 transition-all">
+                            <span class="text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider block mb-2">Wickets Taken</span>
+                            <div class="text-[36px] font-black text-secondary" id="stat-wickets">0</div>
+                            <span class="text-[10px] text-on-surface-variant">Total bowler wickets</span>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl hover:border-secondary/30 transition-all">
+                            <span class="text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider block mb-2">Batting Average</span>
+                            <div class="text-[36px] font-black text-secondary" id="stat-avg">0.0</div>
+                            <span class="text-[10px] text-on-surface-variant">Runs per innings</span>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl hover:border-secondary/30 transition-all">
+                            <span class="text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider block mb-2">Strike Rate</span>
+                            <div class="text-[36px] font-black text-secondary" id="stat-sr">0.0</div>
+                            <span class="text-[10px] text-on-surface-variant">Runs per 100 balls</span>
+                        </div>
+                        <div class="glass-card p-6 rounded-2xl hover:border-secondary/30 transition-all">
+                            <span class="text-on-surface-variant font-label-md text-[11px] uppercase tracking-wider block mb-2">Boundaries (4s/6s)</span>
+                            <div class="text-[32px] font-black text-secondary">
+                                <span id="stat-fours">0</span> <span class="text-xs font-normal text-on-surface-variant">/</span> <span id="stat-sixes">0</span>
+                            </div>
+                            <span class="text-[10px] text-on-surface-variant">Fours & Sixes</span>
+                        </div>
+                    </div>
+
+                    <!-- Sub-Panel 2: CricInsights Form Analytics (Image 5) -->
+                    <div id="panel-insights" class="hidden space-y-6">
+                        <div class="glass-card p-6 rounded-2xl overflow-x-auto">
+                            <h3 class="font-headline-md text-base text-white mb-4">Current Form (Last 5 Innings)</h3>
+                            <table class="cric-table min-w-[500px]">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Innings Details</th>
+                                        <th>Score (Balls)</th>
+                                        <th>Out Type</th>
+                                        <th>Over</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-insights-body">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-xs text-on-surface-variant italic py-8">No recent innings logged yet. Play matches in Umpire mode to see details here!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="glass-card p-4 rounded-xl text-center">
+                                <div class="text-[10px] text-on-surface-variant uppercase">Runs (Last 5)</div>
+                                <div class="text-2xl font-black text-secondary mt-1" id="insight-form-runs">0</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl text-center">
+                                <div class="text-[10px] text-on-surface-variant uppercase">Caught Dismissals</div>
+                                <div class="text-2xl font-black text-secondary mt-1" id="insight-form-caught">0</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl text-center">
+                                <div class="text-[10px] text-on-surface-variant uppercase">Not Outs</div>
+                                <div class="text-2xl font-black text-secondary mt-1" id="insight-form-notouts">0</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl text-center">
+                                <div class="text-[10px] text-on-surface-variant uppercase">Average (Form)</div>
+                                <div class="text-2xl font-black text-secondary mt-1" id="insight-form-avg">0.0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-Panel 3: Compare Players (Image 5) -->
+                    <div id="panel-compare" class="hidden glass-card p-6 rounded-2xl space-y-6">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h3 class="font-headline-md text-base text-white">Compare Player Performance</h3>
+                                <p class="text-xs text-on-surface-variant">Contrast lifetime parameters side-by-side.</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="compare-player-a" class="bg-surface-container-high border border-white/10 rounded-lg p-2 text-xs text-white max-w-[150px]"></select>
+                                <span class="text-xs text-on-surface-variant font-bold">VS</span>
+                                <select id="compare-player-b" class="bg-surface-container-high border border-white/10 rounded-lg p-2 text-xs text-white max-w-[150px]"></select>
+                            </div>
+                        </div>
+
+                        <div class="border border-white/10 rounded-xl overflow-hidden bg-white/5">
+                            <div class="compare-line bg-white/5 font-bold text-xs uppercase tracking-wider">
+                                <span>Player A</span>
+                                <span>Metric</span>
+                                <span>Player B</span>
+                            </div>
+                            <div class="compare-line">
+                                <span id="comp-val-matches-a" class="font-bold text-secondary">0</span>
+                                <span class="text-xs text-on-surface-variant uppercase">Matches</span>
+                                <span id="comp-val-matches-b" class="font-bold text-white">0</span>
+                            </div>
+                            <div class="compare-line">
+                                <span id="comp-val-runs-a" class="font-bold text-secondary">0</span>
+                                <span class="text-xs text-on-surface-variant uppercase">Total Runs</span>
+                                <span id="comp-val-runs-b" class="font-bold text-white">0</span>
+                            </div>
+                            <div class="compare-line">
+                                <span id="comp-val-avg-a" class="font-bold text-secondary">0.0</span>
+                                <span class="text-xs text-on-surface-variant uppercase">Batting Avg</span>
+                                <span id="comp-val-avg-b" class="font-bold text-white">0.0</span>
+                            </div>
+                            <div class="compare-line">
+                                <span id="comp-val-sr-a" class="font-bold text-secondary">0.0</span>
+                                <span class="text-xs text-on-surface-variant uppercase">Strike Rate</span>
+                                <span id="comp-val-sr-b" class="font-bold text-white">0.0</span>
+                            </div>
+                            <div class="compare-line">
+                                <span id="comp-val-wkts-a" class="font-bold text-secondary">0</span>
+                                <span class="text-xs text-on-surface-variant uppercase">Wickets</span>
+                                <span id="comp-val-wkts-b" class="font-bold text-white">0</span>
+                            </div>
+                            <div class="compare-line">
+                                <span id="comp-val-fours-a" class="font-bold text-secondary">0</span>
+                                <span class="text-xs text-on-surface-variant uppercase">Boundaries (4s)</span>
+                                <span id="comp-val-fours-b" class="font-bold text-white">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-Panel 4: Face Off H2H (Image 5) -->
+                    <div id="panel-faceoff" class="hidden glass-card p-6 rounded-2xl space-y-6">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h3 class="font-headline-md text-base text-white">Bowler vs Batsman Face Off</h3>
+                                <p class="text-xs text-on-surface-variant">See direct head-to-head match-up details.</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="faceoff-player-a" class="bg-surface-container-high border border-white/10 rounded-lg p-2 text-xs text-white max-w-[150px]"></select>
+                                <span class="text-xs text-on-surface-variant font-bold">VS</span>
+                                <select id="faceoff-player-b" class="bg-surface-container-high border border-white/10 rounded-lg p-2 text-xs text-white max-w-[150px]"></select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="glass-card p-4 rounded-xl text-center">
+                                <div class="text-[10px] text-on-surface-variant uppercase">H2H Runs</div>
+                                <div class="text-2xl font-black text-secondary mt-1" id="faceoff-runs">0</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl text-center">
+                                <div class="text-[10px] text-on-surface-variant uppercase">H2H Balls Faced</div>
+                                <div class="text-2xl font-black text-secondary mt-1" id="faceoff-balls">0</div>
+                            </div>
+                            <div class="glass-card p-4 rounded-xl text-center">
+                                <div class="text-[10px] text-on-surface-variant uppercase">Dismissals (Wickets)</div>
+                                <div class="text-2xl font-black text-red-400 mt-1" id="faceoff-dismissals">0</div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-xl">
+                            <div class="flex justify-between items-center text-xs font-bold text-on-surface-variant mb-2">
+                                <span>Batsman Edge</span>
+                                <span>Bowler Edge</span>
+                            </div>
+                            <div class="w-full bg-white/5 h-3.5 rounded-full overflow-hidden flex">
+                                <div id="faceoff-edge-batsman" class="bg-secondary h-full transition-all duration-500" style="width: 50%"></div>
+                                <div id="faceoff-edge-bowler" class="bg-red-500 h-full transition-all duration-500" style="width: 50%"></div>
+                            </div>
+                            <div class="flex justify-between text-[10px] font-black text-white mt-1">
+                                <span id="faceoff-edge-batsman-text">50%</span>
+                                <span id="faceoff-edge-bowler-text">50%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIVE MATCH PITCH MONITOR WIDGET -->
+            <div id="player-live-match-widget" class="hidden glass-card p-6 rounded-3xl border-green-500/30 bg-green-500/5 relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 w-32 h-32 bg-green-500/10 rounded-full blur-2xl"></div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="w-3.5 h-3.5 bg-green-400 rounded-full live-pulse shadow-[0_0_12px_#4ade80]"></span>
+                        <div>
+                            <h3 class="font-headline-md text-lg text-white">Live Match Dashboard</h3>
+                            <p class="text-xs text-on-surface-variant">The Umpire has selected you in the active line-up. Your pitch stats are updating live!</p>
+                        </div>
+                    </div>
+                    <div class="glass-card px-6 py-3 rounded-2xl border-green-500/10 flex items-center gap-8">
+                        <div class="text-center" id="live-player-batting-stats">
+                            <div class="text-[10px] text-on-surface-variant uppercase">Your Batting</div>
+                            <div class="font-black text-xl text-green-400">
+                                <span id="live-player-runs">0</span><span class="text-sm font-normal text-on-surface-variant"> runs (<span id="live-player-balls">0</span> balls)</span>
+                            </div>
+                            <div class="text-[10px] text-on-surface-variant">4s: <span id="live-player-fours">0</span> | 6s: <span id="live-player-sixes">0</span></div>
+                        </div>
+                        <div class="w-px h-8 bg-white/10" id="live-player-divider"></div>
+                        <div class="text-center" id="live-player-bowling-stats">
+                            <div class="text-[10px] text-on-surface-variant uppercase">Your Bowling</div>
+                            <div class="font-black text-xl text-green-400">
+                                <span id="live-player-wkts">0</span><span class="text-sm font-normal text-on-surface-variant"> Wkts / <span id="live-player-bowled-runs">0</span> Runs</span>
+                            </div>
+                            <div class="text-[10px] text-on-surface-variant">Overs: <span id="live-player-overs-count">0.0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tournaments & Communities Double Bento Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Bento Left Panel: Tournaments vs Matchmaker vs Local Directory -->
+                <div class="lg:col-span-6 glass-card p-6 rounded-3xl flex flex-col justify-between h-[450px]">
+                    <div>
+                        <!-- Section Navigation Tabs -->
+                        <div class="flex gap-4 border-b border-white/5 mb-4">
+                            <button id="btn-tab-tourneys" class="sub-tab-btn active py-2 text-xs font-bold">Tournaments</button>
+                            <button id="btn-tab-matchmaker" class="sub-tab-btn py-2 text-xs font-bold text-on-surface-variant hover:text-white">Matchmaker</button>
+                            <button id="btn-tab-directory" class="sub-tab-btn py-2 text-xs font-bold text-on-surface-variant hover:text-white">Directory</button>
+                        </div>
+
+                        <!-- 1. Tournament view section (with points tables & mvp sub-panels) -->
+                        <div id="section-tourneys" class="space-y-3">
+                            <div class="mb-2 p-3 bg-white/5 border border-white/5 rounded-xl flex items-center justify-between">
+                                <div class="text-xs text-on-surface-variant italic">
+                                    <span class="text-secondary font-bold" id="dash-broadcast-label">[Host]:</span>
+                                    <span id="player-announcement-box">No announcements posted yet.</span>
+                                </div>
+                            </div>
+
+                            <!-- Tournament sub-tabs (Image 1) -->
+                            <div class="flex gap-2 bg-white/5 p-1 rounded-lg border border-white/5 text-[10px] font-bold">
+                                <button id="btn-tourn-list" class="flex-1 py-1.5 rounded bg-secondary text-on-secondary-fixed">Leagues</button>
+                                <button id="btn-tourn-matches" class="flex-1 py-1.5 rounded text-on-surface-variant">Matches</button>
+                                <button id="btn-tourn-points" class="flex-1 py-1.5 rounded text-on-surface-variant">Standings</button>
+                                <button id="btn-tourn-mvp" class="flex-1 py-1.5 rounded text-on-surface-variant">MVPs</button>
+                            </div>
+
+                            <div class="overflow-y-auto max-h-[190px] pr-2 custom-scrollbar space-y-2" id="player-tournament-content-box">
+                                <!-- lists dynamically based on active tab selection -->
+                            </div>
+                        </div>
+
+                        <!-- 2. Matchmaker Recruitment board (Image 6) -->
+                        <div id="section-matchmaker" class="hidden space-y-4">
+                            <!-- Post Matchmaker Form -->
+                            <div class="p-3 bg-white/5 rounded-xl border border-white/5 flex gap-2 items-center justify-between">
+                                <span class="text-xs text-white font-bold">Recruiting Player or Opponent?</span>
+                                <button id="btn-open-matchmaker-form" class="px-3 py-1 bg-secondary text-on-secondary-fixed text-[10px] font-bold rounded-lg hover:scale-105 active:scale-95 transition-all">Create Post</button>
+                            </div>
+                            
+                            <!-- Post modal form inline -->
+                            <div id="matchmaker-form-box" class="hidden p-3 bg-white/5 rounded-xl border border-secondary/20 space-y-2.5">
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <div>
+                                        <label class="block text-[9px] uppercase text-on-surface-variant mb-1">Post Type</label>
+                                        <select id="mm-type" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-1.5 text-xs text-white">
+                                            <option value="Opponent">Opponent Needed</option>
+                                            <option value="Team Join">Player Seeking Team</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[9px] uppercase text-on-surface-variant mb-1">Ground Type</label>
+                                        <input type="text" id="mm-ground" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-1.5 text-xs text-white" placeholder="e.g. Open Ground">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[9px] uppercase text-on-surface-variant mb-1">Match Date</label>
+                                        <input type="date" id="mm-date" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-1.5 text-xs text-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[9px] uppercase text-on-surface-variant mb-1">Time</label>
+                                        <input type="time" id="mm-time" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-1.5 text-xs text-white">
+                                    </div>
+                                </div>
+                                <input type="text" id="mm-desc" class="w-full bg-surface-container-high border border-white/10 rounded-lg p-2 text-xs text-white" placeholder="e.g. Looking for a bowler (Right-arm fast)">
+                                <div class="flex gap-2">
+                                    <button id="btn-submit-mm" class="flex-1 py-1.5 bg-secondary text-on-secondary-fixed text-xs font-bold rounded-lg">Publish Post</button>
+                                    <button id="btn-cancel-mm" class="flex-1 py-1.5 bg-white/5 border border-white/10 text-xs text-on-surface-variant rounded-lg">Cancel</button>
+                                </div>
+                            </div>
+
+                            <!-- Matchmaker posts listing (Image 6) -->
+                            <div class="overflow-y-auto max-h-[220px] pr-2 custom-scrollbar space-y-2.5" id="matchmaker-posts-list"></div>
+                        </div>
+
+                        <!-- 3. Local Ecosystem Connections Directory (Image 3) -->
+                        <div id="section-directory" class="hidden space-y-4">
+                            <h4 class="text-xs text-on-surface-variant mb-2">Cricket Community Listings</h4>
+                            <div class="grid grid-cols-3 gap-2" id="directory-grid-buttons">
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="scorers">
+                                    <span class="material-symbols-outlined text-base text-secondary">history_edu</span>
+                                    <span class="text-[9px] font-bold">Scorers</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="umpires">
+                                    <span class="material-symbols-outlined text-base text-secondary">sports</span>
+                                    <span class="text-[9px] font-bold">Umpires</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="grounds">
+                                    <span class="material-symbols-outlined text-base text-secondary">stadium</span>
+                                    <span class="text-[9px] font-bold">Grounds</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="academies">
+                                    <span class="material-symbols-outlined text-base text-secondary">school</span>
+                                    <span class="text-[9px] font-bold">Academies</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="coaches">
+                                    <span class="material-symbols-outlined text-base text-secondary">groups</span>
+                                    <span class="text-[9px] font-bold">Coaches</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="nets">
+                                    <span class="material-symbols-outlined text-base text-secondary">sports_kabaddi</span>
+                                    <span class="text-[9px] font-bold">Nets</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="physios">
+                                    <span class="material-symbols-outlined text-base text-secondary">medical_services</span>
+                                    <span class="text-[9px] font-bold">Physios</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="streamers">
+                                    <span class="material-symbols-outlined text-base text-secondary">videocam</span>
+                                    <span class="text-[9px] font-bold">Streamers</span>
+                                </button>
+                                <button class="directory-btn p-3 bg-white/5 border border-white/5 rounded-xl flex flex-col items-center justify-center gap-1" data-cat="shops">
+                                    <span class="material-symbols-outlined text-base text-secondary">storefront</span>
+                                    <span class="text-[9px] font-bold">Shops</span>
+                                </button>
+                            </div>
+
+                            <!-- Selected Category Listings Drawer -->
+                            <div id="directory-drawer" class="hidden p-3 bg-white/5 border border-white/5 rounded-xl relative space-y-2">
+                                <button class="absolute top-2 right-2 text-on-surface-variant hover:text-white material-symbols-outlined text-xs" id="btn-close-directory-drawer">close</button>
+                                <h5 class="text-[10px] text-secondary font-black uppercase tracking-wider" id="directory-drawer-title">Umpires</h5>
+                                <div class="space-y-2 overflow-y-auto max-h-[110px] pr-2 custom-scrollbar text-xs" id="directory-drawer-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Center -->
+                <div class="lg:col-span-6 glass-card p-6 rounded-3xl flex flex-col h-[450px]">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-headline-md text-xl flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary">forum</span> Communities
+                        </h3>
+                        <div class="flex gap-2 bg-white/5 p-1 rounded-xl border border-white/5">
+                            <button id="btn-chat-public" class="px-3 py-1 text-xs font-bold rounded-lg bg-secondary text-on-secondary-fixed transition-all">Public Chat</button>
+                            <button id="btn-chat-private" class="px-3 py-1 text-xs font-bold rounded-lg text-on-surface-variant hover:text-white transition-all">Private Room</button>
+                        </div>
+                    </div>
+
+                    <!-- Chat messages scroll box -->
+                    <div class="chat-container">
+                        <div class="chat-messages-box custom-scrollbar" id="chat-messages-display">
+                            <div class="text-xs text-on-surface-variant italic text-center py-10">Welcome to the Public chat. Say hello to other players!</div>
+                        </div>
+                        <!-- Chat input bar -->
+                        <div class="chat-input-bar">
+                            <input type="text" id="chat-message-input" class="flex-1 bg-transparent border-none outline-none focus:ring-0 text-sm placeholder:text-on-surface-variant/40" placeholder="Type message...">
+                            <span id="chat-admin-warning" class="hidden text-[10px] text-yellow-400 font-bold bg-yellow-400/10 px-2 py-1 rounded border border-yellow-400/20">Admin Lock</span>
+                            <button id="btn-send-chat" class="material-symbols-outlined text-secondary hover:bg-white/10 p-2 rounded-full transition-all">send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW: PUBLIC SCOREBOARD ==================== -->
+    <div id="view-public" class="view-container hidden p-6 lg:p-12 max-w-6xl mx-auto">
+        <div class="text-center mb-8 flex flex-col items-center">
+            <span class="inline-block bg-accent-neon/10 text-accent-neon px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1">
+                <span class="w-2 h-2 bg-accent-neon rounded-full live-pulse"></span> Live Broadcast Screen
+            </span>
+            <h1 class="font-headline-lg text-4xl">Match Centre</h1>
+            <p class="text-sm text-on-surface-variant mt-1">Real-time statistics updates synchronized directly with the Umpire's actions.</p>
+        </div>
+
+        <!-- Scoreboard Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left: Main Board -->
+            <div class="lg:col-span-8 space-y-6">
+                <!-- Large Stadium Score Widget -->
+                <div class="glass-card p-8 rounded-3xl border-secondary/30 relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+                    <div class="absolute -top-24 -left-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+                    <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+                        <span class="font-headline-md text-sm text-on-surface-variant tracking-wider uppercase">Cricket Innings Scoreboard</span>
+                        <span class="px-3 py-1 bg-secondary-container/50 text-secondary text-xs rounded-full font-bold uppercase tracking-wider" id="public-match-status">WAITING FOR OVER</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center flex-wrap gap-6 py-2">
+                        <div>
+                            <h2 id="public-team-names" class="font-display-lg text-xl md:text-2xl font-black mb-1 text-white">Stormers vs Titans</h2>
+                            <!-- Toss Details in Public Dashboard (Image 8) -->
+                            <div class="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mb-3.5" id="public-toss-display">Toss details pending...</div>
+                            <div class="text-4xl md:text-6xl font-black text-secondary tracking-tight">
+                                <span id="public-score-runs">0</span> / <span id="public-score-wickets">0</span>
+                                <span class="text-lg md:text-2xl font-normal text-on-surface-variant ml-2">(<span id="public-score-overs">0.0</span> / <span id="public-score-total-overs">5</span> Overs)</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-on-surface-variant uppercase mb-1">Current Run Rate</div>
+                            <div class="text-3xl font-black text-secondary" id="public-score-crr">0.00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-white/5 flex flex-wrap justify-between text-xs text-on-surface-variant font-bold">
+                        <div class="flex gap-4">
+                            <div>Target: <span class="text-white" id="public-target-runs">N/A</span></div>
+                            <!-- Projected Score Banner (Image 4) -->
+                            <div>Projected Score: <span class="text-secondary font-bold" id="public-projected-score">0</span></div>
+                        </div>
+                        <div>Extras logged: <span class="text-white" id="public-score-extras">0</span></div>
+                    </div>
+                </div>
+
+                <!-- Active Pitch Partnerships -->
+                <div class="glass-card p-6 rounded-3xl">
+                    <h3 class="font-label-md text-xs uppercase tracking-wider text-on-surface-variant mb-4">On the Pitch</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Striker -->
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/5 flex justify-between items-center relative border-l-4 border-l-secondary">
+                            <div>
+                                <span class="text-[10px] text-on-surface-variant uppercase">Striker</span>
+                                <div class="font-bold text-base text-white" id="public-strike-name">Batsman 1</div>
+                                <div class="text-xs text-on-surface-variant mt-1">4s: <span id="public-strike-fours">0</span> | 6s: <span id="public-strike-sixes">0</span></div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-black text-secondary"><span id="public-strike-runs">0</span>*</div>
+                                <div class="text-xs text-on-surface-variant"><span id="public-strike-balls">0</span> balls</div>
+                            </div>
+                        </div>
+                        <!-- Non striker -->
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/5 flex justify-between items-center">
+                            <div>
+                                <span class="text-[10px] text-on-surface-variant uppercase">Non-Striker</span>
+                                <div class="font-bold text-base text-white" id="public-nonstrike-name">Batsman 2</div>
+                                <div class="text-xs text-on-surface-variant mt-1">4s: <span id="public-nonstrike-fours">0</span> | 6s: <span id="public-nonstrike-sixes">0</span></div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-white"><span id="public-nonstrike-runs">0</span></div>
+                                <div class="text-xs text-on-surface-variant"><span id="public-nonstrike-balls">0</span> balls</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Bowler -->
+                <div class="glass-card p-6 rounded-3xl flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-on-surface-variant uppercase block mb-1">Active Bowler</span>
+                        <div class="font-bold text-lg text-white flex items-center gap-2">
+                            <span id="public-bowler-name">Bowler 1</span>
+                            <!-- Bowler Wicket indicators (Image 4) -->
+                            <span id="public-bowler-wickets-icons" class="flex gap-0.5 text-red-500"></span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-black text-secondary">
+                            <span id="public-bowler-wkts">0</span> <span class="text-sm font-normal text-on-surface-variant">Wkts / <span id="public-bowler-runs">0</span> Runs</span>
+                        </div>
+                        <div class="text-xs text-on-surface-variant">Overs: <span id="public-bowler-overs">0.0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: commentary & overs logs -->
+            <div class="lg:col-span-4 space-y-6">
+                <!-- Recent Deliveries -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="font-label-md text-xs uppercase tracking-wider text-on-surface-variant mb-4">This Over log</h3>
+                    <div class="flex flex-wrap gap-2" id="public-over-balls">
+                        <span class="text-xs text-on-surface-variant italic">Waiting for bowler...</span>
+                    </div>
+                </div>
+
+                <!-- Live Commentary Scrollable Log -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col h-[380px]">
+                    <h3 class="font-label-md text-xs uppercase tracking-wider text-on-surface-variant mb-4 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-secondary">campaign</span> Commentary Log
+                    </h3>
+                    <div class="flex-1 overflow-y-auto space-y-3 pr-2 text-xs" id="public-commentary-list">
+                        <div class="text-on-surface-variant italic text-center py-12">Commentary logs will update automatically in real-time.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW: TOURNAMENT HOST PANEL ==================== -->
+    <div id="view-host" class="view-container hidden p-6 lg:p-12 max-w-6xl mx-auto">
+        <div class="mb-8">
+            <h1 class="font-headline-lg text-3xl">Tournament Host Dashboard</h1>
+            <p class="text-sm text-on-surface-variant">Create cricket tournaments, broadcast announcements to players, and configure community message permissions.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Host Controls -->
+            <div class="lg:col-span-6 space-y-6">
+                <!-- Host Tournament Form -->
+                <div class="glass-card p-6 rounded-3xl">
+                    <h3 class="font-headline-md text-lg mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">add_circle</span> Register Tournament
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs uppercase text-on-surface-variant mb-1">Tournament Name</label>
+                            <input type="text" id="host-tourney-name" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white" placeholder="e.g. Monsoon League Cup">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs uppercase text-on-surface-variant mb-1">Total Teams</label>
+                                <input type="number" id="host-tourney-teams" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white" placeholder="8">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-on-surface-variant mb-1">Start Date</label>
+                                <input type="date" id="host-tourney-date" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white">
+                            </div>
+                        </div>
+                        <button id="btn-host-create" class="px-6 py-3.5 bg-secondary text-on-secondary-fixed rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all w-full shadow-md">
+                            HOST NEW TOURNAMENT
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Host Schedule Match Form -->
+                <div class="glass-card p-6 rounded-3xl">
+                    <h3 class="font-headline-md text-lg mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">calendar_today</span> Schedule Tournament Match
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs uppercase text-on-surface-variant mb-1">Select Tournament</label>
+                            <select id="host-match-tourney" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:border-secondary"></select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs uppercase text-on-surface-variant mb-1">Team A (Batting)</label>
+                                <input type="text" id="host-match-teama" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white" placeholder="e.g. Mumbai Stormers">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-on-surface-variant mb-1">Team B (Bowling)</label>
+                                <input type="text" id="host-match-teamb" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white" placeholder="e.g. Pune Titans">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs uppercase text-on-surface-variant mb-1">Match Date</label>
+                                <input type="date" id="host-match-date" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-on-surface-variant mb-1">Start Time</label>
+                                <input type="time" id="host-match-time" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white">
+                            </div>
+                        </div>
+                        <button id="btn-host-schedule" class="px-6 py-3.5 bg-secondary text-on-secondary-fixed rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all w-full shadow-md">
+                            SCHEDULE UPCOMING MATCH
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Broadcast Announcement -->
+                <div class="glass-card p-6 rounded-3xl">
+                    <h3 class="font-headline-md text-lg mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">campaign</span> Post Host Announcement
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs uppercase text-on-surface-variant mb-1">Broadcasting Details</label>
+                            <textarea id="host-announcement-text" rows="3" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:border-secondary focus:ring-0" placeholder="e.g. Ground B pitches will undergo maintenance..."></textarea>
+                        </div>
+                        <button id="btn-host-announce" class="px-6 py-3.5 bg-white/10 border border-white/20 text-white rounded-xl font-bold hover:bg-white/20 transition-all w-full">
+                            BROADCAST TO PLAYER HUB
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Permission Toggles and Tournaments Listing -->
+            <div class="lg:col-span-6 space-y-6">
+                <!-- Chat Community Permission Controllers -->
+                <div class="glass-card p-6 rounded-3xl space-y-6">
+                    <h3 class="font-headline-md text-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">settings_suggest</span> Community Permissions
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl">
+                            <div>
+                                <div class="text-sm font-bold text-white">Lock Public Chat</div>
+                                <div class="text-xs text-on-surface-variant">Only tournament hosts/admins can message</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-lock-public">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl">
+                            <div>
+                                <div class="text-sm font-bold text-white">Lock Private Chat</div>
+                                <div class="text-xs text-on-surface-variant">Restrict private room messaging to admins</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-lock-private">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Reset & Fresh Start -->
+                <div class="glass-card p-6 rounded-3xl border-red-500/20 bg-red-500/5 space-y-4">
+                    <h3 class="font-headline-md text-lg flex items-center gap-2 text-red-400">
+                        <span class="material-symbols-outlined">restart_alt</span> System Administration
+                    </h3>
+                    <p class="text-xs text-on-surface-variant">Reset all match data, completed innings, recruitment posts, and standings back to clean zero values for a fresh league start.</p>
+                    <button id="btn-system-reset" class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-black shadow-md transition-all hover:scale-[1.02] active:scale-95 w-full">
+                        RESET ALL APPLICATION DATA
+                    </button>
+                </div>
+
+                <!-- Hosted Tournaments Log -->
+                <div class="glass-card p-6 rounded-3xl">
+                    <h3 class="font-headline-md text-lg mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">list_alt</span> Active Hosted Tournaments
+                    </h3>
+                    <div class="space-y-4 max-h-[220px] overflow-y-auto pr-2 custom-scrollbar" id="host-tournaments-log">
+                        <div class="text-xs text-on-surface-variant italic text-center py-8">No tournaments registered under your hosting name yet.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Controller Logic -->
+    <script type="module" src="./src/app.js"></script>
+</body>
+</html>

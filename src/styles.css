@@ -1,0 +1,379 @@
+/* Custom Fonts and Baseline Style Overrides */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary: #c2c6db;
+    --secondary: #adc6ff;
+    --accent-neon: #ccff00;
+    --background: #101415;
+    --surface: #101415;
+}
+
+body {
+    background: radial-gradient(circle at top right, #0A0F1E 0%, #000000 100%);
+    color: #e0e3e5;
+    min-height: 100vh;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Glassmorphism Card System */
+.glass-card {
+    background: rgba(29, 32, 34, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Neon Glows */
+.neo-glow, .neon-glow-blue, .neon-glow-primary {
+    box-shadow: 0 0 20px rgba(5, 102, 217, 0.25);
+}
+
+.neon-glow-green {
+    box-shadow: 0 0 15px rgba(204, 255, 0, 0.25);
+}
+
+.neon-text-green {
+    color: #4ade80;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}
+
+/* Custom Animations & Keyframes */
+.entrance-anim {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s forwards cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pulse-live, .live-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(0.9);
+    }
+}
+
+/* Chart Drawing Animation */
+.chart-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: dash 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Page Transition States */
+.view-container {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.view-container.hidden {
+    display: none !important;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(173, 198, 255, 0.3);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* Mobile responsive navigation padding fix */
+@media (max-width: 1024px) {
+    .content-padding-bottom {
+        padding-bottom: 5rem !important; /* Prevent bottom navigation overlay */
+    }
+}
+
+/* ==================== CRIC-HIT CHAT WORKFLOW ==================== */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+    background: rgba(16, 20, 21, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.chat-messages-box {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.chat-bubble {
+    padding: 0.6rem 1rem;
+    border-radius: 16px;
+    max-width: 80%;
+    position: relative;
+    word-break: break-word;
+    font-size: 0.875rem;
+}
+
+.chat-bubble.self {
+    align-self: flex-end;
+    background: rgba(5, 102, 217, 0.25);
+    border: 1px solid rgba(173, 198, 255, 0.2);
+    border-bottom-right-radius: 4px;
+    color: #e0e3e5;
+}
+
+.chat-bubble.other {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom-left-radius: 4px;
+    color: #e0e3e5;
+}
+
+.chat-bubble.admin-msg {
+    border-left: 3px solid var(--accent-neon);
+    background: rgba(204, 255, 0, 0.05);
+}
+
+.chat-input-bar {
+    display: flex;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.75rem;
+    background: rgba(11, 15, 16, 0.8);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chat-input-bar input:disabled {
+    background: rgba(255, 255, 255, 0.02);
+    color: rgba(255, 255, 255, 0.2);
+    cursor: not-allowed;
+}
+
+/* ==================== TOGGLE SWITCH STYLE ==================== */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: .3s;
+    border-radius: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #909097;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: rgba(5, 102, 217, 0.4);
+    border-color: rgba(173, 198, 255, 0.4);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+    background-color: #adc6ff;
+}
+
+/* Live indicators */
+.umpire-grid-btn {
+    transition: all 0.2s ease-in-out;
+}
+.umpire-grid-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+.umpire-grid-btn:active {
+    transform: scale(0.95);
+}
+
+/* ==================== CRIC-HIT TABLES & GRIDS ==================== */
+.cric-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.cric-table th {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #909097;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cric-table td {
+    padding: 0.9rem 1rem;
+    font-size: 0.875rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.cric-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Compare matrix lines */
+.compare-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.compare-line:last-child {
+    border-bottom: none;
+}
+
+/* Local Directory Grid */
+.directory-btn {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.directory-btn:hover {
+    background: rgba(173, 198, 255, 0.1);
+    border-color: rgba(173, 198, 255, 0.4);
+}
+
+/* Sub-Tab styles */
+.sub-tab-btn {
+    transition: all 0.25s ease;
+    border-bottom: 2px solid transparent;
+}
+.sub-tab-btn.active {
+    color: #adc6ff;
+    border-color: #adc6ff;
+    font-weight: 700;
+}
+
+/* ==================== PROFESSIONAL UMPIRE DASHBOARD LOCK LAYOUT ==================== */
+@media (min-width: 1024px) {
+    #view-umpire {
+        height: calc(100vh - 80px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+    
+    #view-umpire #umpire-scoring-dashboard {
+        flex: 1;
+        height: 0;
+        overflow: hidden;
+    }
+
+    #view-umpire .lg\:col-span-8 {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        overflow: hidden;
+    }
+
+    #view-umpire .lg\:col-span-4 {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        overflow: hidden;
+    }
+
+    /* Column 8 widgets fitting */
+    #view-umpire .lg\:col-span-8 > .glass-card {
+        padding: 1.25rem !important;
+    }
+
+    #view-umpire .lg\:col-span-8 > .glass-card:last-child {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1.25rem !important;
+    }
+
+    /* Column 4 widgets fitting */
+    #view-umpire .lg\:col-span-4 > .glass-card {
+        padding: 1.25rem !important;
+    }
+
+    #view-umpire .lg\:col-span-4 > .glass-card:last-child {
+        flex: 1;
+        height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #view-umpire #umpire-commentary-feed {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+    }
+}
